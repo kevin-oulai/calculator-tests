@@ -5,10 +5,16 @@ import java.util.Set;
 
 public class Calculator {
     public static int add(int opG, int opD){
+        if (Math.abs(opG)/2 + Math.abs(opD)/2 > 1073741823){
+            throw new ErreurAdditionLimiteInteger();
+        }
         return opG + opD;
     }
 
     public static int divide(int opG, int opD){
+        if (opD == 0){
+            throw new ErreurDivisionParZero();
+        }
         return opG /  opD;
     }
 

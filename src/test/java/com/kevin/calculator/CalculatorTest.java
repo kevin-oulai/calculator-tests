@@ -1,6 +1,7 @@
 package com.kevin.calculator;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,6 +69,21 @@ public class CalculatorTest {
     }
 
     @Test
+    void devrait_lever_une_exception_si_a_plus_b_depasse_limite_integer(){
+        // GIVEN
+        int a = -2147483640;
+        int b = -8;
+
+        // WHEN
+        Throwable thrown = catchThrowable(() -> Calculator.add(a,b));
+
+        // THEN
+        assertThat(thrown)
+                .isInstanceOf(ErreurAdditionLimiteInteger.class)
+                .hasMessage("L'addition dépasse la limite d'un entier");
+    }
+
+    @Test
     void devrait_renvoyer_3_quand_divide_6_par_2(){
         // GIVEN
         int a = 6;
@@ -91,6 +107,21 @@ public class CalculatorTest {
 
         // THEN
         assertThat(resultat).isEqualTo(1);
+    }
+
+    @Test
+    void devrait_lever_une_exception_si_b_egal_a_zero(){
+        // GIVEN
+        int a = 6;
+        int b = 0;
+
+        // WHEN
+        Throwable thrown = catchThrowable(() ->  Calculator.divide(a,b));
+
+        // THEN
+        assertThat(thrown)
+                .isInstanceOf(ErreurDivisionParZero.class)
+                .hasMessage("Division par zéro impossible");
     }
 
     @Test
