@@ -1,6 +1,7 @@
 plugins {
 	id 'java'
-	id 'idea' // optional (to generate IntelliJ IDEA project files)
+	id 'idea'
+	id 'jacoco'// optional (to generate IntelliJ IDEA project files)
 }
 
 repositories {
@@ -14,9 +15,21 @@ dependencies {
 	testImplementation 'org.assertj:assertj-core:3.23.1'
 }
 
+
+
 test {
 	useJUnitPlatform()
 	testLogging {
 		events "passed", "skipped", "failed"
 	}
+	finalizedBy jacocoTestReport {
+		dependsOn test
+		reports {
+			xml.required = true
+			html.outputLocation=layout.buildDirectory.dir('reports/jacoco/test')
+			// dossier et fichier de rangement par défaut, mais modifiable, comme par exemple :
+			// html.outputLocation=layout.projectDirectory.dir('reports/jacoco/test')
+		}
+	}
 }
+
