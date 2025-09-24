@@ -1,16 +1,16 @@
 package com.kevin.calculator;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.kevin.calculator.Calculator;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class CalculatorTest {
     // Calculator calculator;
@@ -81,7 +81,7 @@ public class CalculatorTest {
     }
 
     @Test
-    void devrait_renvoyer_1_quand_divide_a_et_b_et_a_egal_b(){
+    void devrait_renvoyer_1_quand_divide_a_et_b_et_a_egaux_b(){
         // GIVEN
         int a = 6;
         int b = 6;
@@ -93,6 +93,47 @@ public class CalculatorTest {
         assertThat(resultat).isEqualTo(1);
     }
 
+    @Test
+    void devrait_renvoyer_une_liste_contenant_le_chiffre_si_nombre_inf_a_10(){
+        // GIVEN
+        int nombre = 6;
 
+        // WHEN
+        Set<Integer> resultat = Calculator.ensembleChiffres(nombre);
 
+        // THEN
+        Set<Integer> attendu = new HashSet<>();
+        attendu.add(nombre);
+        assertThat(resultat).isEqualTo(attendu);
+    }
+
+    @Test
+    void devrait_renvoyer_une_liste_contenant_6_7_9_si_on_donne_7679(){
+        // GIVEN
+        int nombre = 7679;
+
+        // WHEN
+        Set<Integer> resultat = Calculator.ensembleChiffres(nombre);
+
+        // THEN
+        Set<Integer> attendu = new HashSet<>();
+        attendu.add(6);
+        attendu.add(7);
+        attendu.add(9);
+        assertThat(resultat).isEqualTo(attendu);
+    }
+
+    @Test
+    void devrait_renvoyer_une_liste_contenant_1_si_on_donne_moins_11(){
+        // GIVEN
+        int nombre = -11;
+
+        // WHEN
+        Set<Integer> resultat = Calculator.ensembleChiffres(nombre);
+
+        // THEN
+        Set<Integer> attendu = new HashSet<>();
+        attendu.add(1);
+        assertThat(resultat).isEqualTo(attendu);
+    }
 }
